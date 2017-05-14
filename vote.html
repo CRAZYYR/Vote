@@ -1,0 +1,151 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+	<meta charset="UTF-8">  
+	<title>投票</title> 
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+	<style type="text/css">
+*{ padding: 0px; margin: 0px;}
+body{ font-size: 14px; font-family: "微软雅黑";}
+#content .result_title{text-align: center;line-height: 64px;border-bottom: 1px solid #ddd;}
+.c-table{ border:0 px solid #ddd; border-bottom:0;}
+.c-table p{border-bottom: 1px solid #ddd; height: 51px; line-height: 51px; padding-left: 15px; color: #666;position: relative;}
+
+.optionBox{  float: left; margin-top: 10px; margin-right: 10px;transform: translateY(120%);}
+.right{position: absolute;right: 5px;}
+.skillbar {position: relative;float:left;width: 60%;background: #eee;height: 10px;margin-top:20px;}
+.skillbar-bar{ height:10px; float:left; display:block;}
+.name{float: left; margin-right: 10%;}
+		</style>
+		<script src="js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+	window.onload = function(){	
+			//			   让modal垂直居中
+	        var $m_btn = $('#modalBtn');
+	        var $modal = $('#myModal');
+	        $m_btn.on('click', function(){
+	          $modal.modal({backdrop: 'static'});
+	        });
+	        $modal.on('show.bs.modal', function(){
+	          var $this = $(this);
+	          var $modal_dialog = $this.find('.modal-dialog');
+	          $this.css('display', 'block');
+	          $modal_dialog.css({'margin-top': Math.max(0, ($(window).height() - $modal_dialog.height()) / 2) });
+	        }); 
+	        //			   让modal垂直居中结束
+		
+		
+		function changeValue(){
+					$('.skillbar').each(function(){
+						$(this).find('.skillbar-bar').animate({
+							width:$(this).attr('data-percent')
+						},2000);
+					});
+				}
+		$('#voteBtn').click(function(){
+			for(var i = 0; i < document.getElementsByName("optionBox").length; i++){     
+	            if(document.getElementsByName("optionBox")[i].checked == true){ 
+    			var num = parseInt($('.right')[i].innerHTML );
+    			num++;
+    			$('.right')[i].innerHTML =num+'票';
+	            } 
+      		}  
+      			$('#myModal').modal({
+					 keyboard: true
+					});
+				
+		})
+		//查看投票结果
+		$('#submit').click(function(){
+			window.location.href='VoteResult.html';
+		});
+		
+		//服务器返回
+		var pollArr = ['11票','12票','13票','14票'];
+		var nameArr = ['测试1','测试2','测试3','测试4'];
+		var percentArr = ['40%','30%','20%','10%'];
+		for (var i=0;i<pollArr.length;i++) {
+			$('.right')[i].innerHTML=pollArr[i];
+			$('.name')[i].innerHTML = nameArr[i];
+			var changePercent= document.getElementsByClassName('skillbar')[i];
+            changePercent.setAttribute('data-percent',percentArr[i]);
+		}
+		changeValue();
+	}		
+		</script>
+</head>  
+	<body>
+		<div id="content">
+				<p class="result_title">关于**的投票</p>
+				<div class="c-table">
+					<!--第一个-->
+				<p>
+				<input type="radio" name="optionBox" class="optionBox"checked="checked" />
+				<span class="name">text1</span>
+				
+				<i class="skillbar  " data-percent="10%">
+				 	<span class="skillbar-bar" style="background: #9AF1EF;"></span>
+				</i>
+				 
+				<span class="right">24票</span>
+				</p>
+					<!--第二个-->				
+				<p>
+				<input type="radio" name="optionBox" class="optionBox" />
+				<span class="name">text2</span>
+				
+				<i class="skillbar  " data-percent="40%">
+				 	<span class="skillbar-bar" style="background: #FDDE2E;"></span>
+				</i>
+				 
+				<span class="right">24票</span>
+				</p>
+					<!--第三个-->				
+				<p>
+				<input type="radio" name="optionBox" class="optionBox" />
+				<span class="name">text3</span>
+				
+				<i class="skillbar  " data-percent="20%">
+				 	<span class="skillbar-bar" style="background: #FF745B;"></span>
+				</i>
+				 
+				<span class="right">24票</span>
+				</p>
+					<!--第四个-->		
+				<p>
+				<input type="radio" name="optionBox" class="optionBox" />
+				<span class="name">text4</span>
+				
+				<i class="skillbar  " data-percent="30%">
+				 	<span class="skillbar-bar" style="background: #1DBFB6;"></span>
+				</i>
+				 
+				<span class="right">24票</span>
+				</p>
+	
+				<p style="text-align: center; border: 1px solid #ddd;" id="voteBtn">投票</p>
+			</div>
+		</div>	
+			<!-- Modal -->
+	     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	          <div class="modal-dialog">
+	              <div class="modal-content">
+	                 <div class="modal-header">
+	                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                     <h4 class="modal-title" id="myModalLabel" style="text-align: center; color: #808080;">投票成功!</h4>
+	                 </div>
+	                 <div class="modal-body">
+	                   <!--<p style="text-align: center;" id="lottoryName">奖项名称</p>-->
+	                   <!--<p style="text-align: center;" id="lottoryContent">奖项内容</p>-->	
+	                   <p style="color: white; background: #2579B7;text-align: center;width: 120px;position: relative;left: 50%;transform: translateX(-50%); border-radius: 5px;" id="submit">查看投票结果</p> 
+	                </div>
+	                <!--<div class="modal-footer">-->
+	                   <!--<p style="text-align: center;" id="lottoryDate">有效日期：时间2016-20170.8</p>-->
+	                <!--</div>-->
+	            </div>
+	         </div>
+	     </div>
+	</body> 
+</html>  
